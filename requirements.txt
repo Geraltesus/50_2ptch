@@ -1,4 +1,4 @@
-discor.py
+discord.py
 pyowm
 random
 wpaapi
