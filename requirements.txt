@@ -1,6 +1,5 @@
 discord.py
 pyowm
-random
 wpaapi
 datetime
 os
