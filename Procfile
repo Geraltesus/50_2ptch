@@ -1,0 +1,1 @@
+worker: python 50_2ptch.py

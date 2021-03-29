@@ -1,0 +1,6 @@
+discor.py
+pyowm
+random
+wpaapi
+datetime
+os
