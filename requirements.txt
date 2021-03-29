@@ -1,5 +1,4 @@
 discord.py
 pyowm
-wpaapi
+Wikipedia-API
 datetime
-os
