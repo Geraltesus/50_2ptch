@@ -39,7 +39,7 @@ async def help( ctx ):
 
 
 @client.command()
-async def wiki(ctx,message):
+async def wiki(ctx,message,message):
 	emb = discord.Embed( title = message, colour = discord.Color.gold() )
 	wiki=wpaapi.Wikipedia('ru')
 	search=message
