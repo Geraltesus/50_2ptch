@@ -6,9 +6,10 @@ from random import randint
 import wikipediaapi as wpaapi
 from discord.utils import get
 import os
+from translate import Translator
 
 PREFIX = '.'
-bad_words = ['123','321']
+bad_words = ['блять','сука']
 
 
 client = commands.Bot( command_prefix = PREFIX )
@@ -17,9 +18,12 @@ client.remove_command( 'help' )
 @client.event
 
 async def on_ready():
-	print('connected')
+	print('ля какой')
 
 	await client.change_presence( status = discord.Status.online, activity = discord.Game( '.help' ) )
+
+
+
 
 
 #help
@@ -30,12 +34,33 @@ async def on_command_error( member ):
 @client.command( pass_contex = True )
 async def help( ctx ):
 	emb = discord.Embed( title = 'Навигация по командам для пользователей', colour = discord.Color.teal() )
-	emb.add_field( name = 'Информация', value = '.пн\n.вт\n.ср\n.чт\n.пт\n.сб\n.время\n.фото\n.time\n.погода\n.wiki' )
-	emb.add_field( name = 'Fun', value = '.think\n.Мото\n.cats   \n.Егор\n.Лёха\n.Миша\n.Макс\n.Альберь\n.Айтал\n.Андрей\n.Ваня\n.Ваня2\n.Женя\n.Эркин' )
+	emb.add_field( name = 'Информация', value = '.пн\n.вт\n.ср\n.чт\n.пт\n.сб\n.время\n.фото\n.погода\n.wiki\n.text\n.join(.leave)\n.send_a' )
+	emb.add_field( name = 'Fun', value = '.think\n.Мото\n.cats' )
 	emb.set_image( url = 'https://media.discordapp.net/attachments/775235971306094602/821591097222496256/ch_150146_s1AZ.png' )
 	await ctx.send( embed = emb )
 	print('>help<')
 
+
+@client.command()
+async def text( ctx, *, args ):
+	a=args
+#	a1,a2=map(str,input().split())
+	a1='rus'
+	a2='eng'
+
+	if a1 == 'eng':
+		a1 ='English'
+	if a2 == 'rus':
+		a2 ='Russian'
+	if a2 == 'eng':
+		a2 ='English'
+	if a1 == 'rus':
+		a1 ='Russian'
+
+	translator = Translator(from_lang=a1, to_lang=a2)
+	result = translator.translate(a)
+	await ctx.send( result )
+	print(result)
 
 
 @client.command()
@@ -83,14 +108,14 @@ async def think( ctx ):
 @client.command()
 async def cats(ctx):
 	emb = discord.Embed( title = 'Коты', colour = discord.Color.teal() )
-	emb.set_image( url = 'ttps://media.discordapp.net/attachments/774073933107429389/813029224306442290/cat.jpg?width=1191&height=670' )
+	emb.set_image( url = 'https://media.discordapp.net/attachments/774073933107429389/813029224306442290/cat.jpg?width=1191&height=670' )
 	await ctx.send( embed = emb )
 #	await ctx.send("https://media.discordapp.net/attachments/774073933107429389/813029224306442290/cat.jpg?width=1191&height=670")
 
 @client.command()
 async def Мото(ctx):
 	emb = discord.Embed( title = 'Мото-Мото', colour = discord.Color.teal() )
-	emb.set_image( url = 'https://media.discordapp.net/attachments/774157603202662442/820672426962321428/image0.jpg?width=1191&height=670' )
+	emb.set_image( url = 'https://images-ext-2.discordapp.net/external/weZsQvMu6Rj87Nxln7AS1ZlUwCHlSW_gEqFkA7tVgTk/%3Fwidth%3D1191%26height%3D670/https/media.discordapp.net/attachments/774157603202662442/820672426962321428/image0.jpg' )
 	await ctx.send( embed = emb )
 #	await ctx.send("https://media.discordapp.net/attachments/774157603202662442/820672426962321428/image0.jpg?width=1191&height=670")	
 
@@ -211,26 +236,29 @@ async def time( ctx ):
 
 @client.command( pass_contex = True )
 
-async def погода( ctx ):
+async def погода( ctx, message ):
 
 	owm = pyowm.OWM('aad8fa85bfabe2907345fb0ec522c2e7')
 
-	observation = owm.weather_at_place('Якутск')
+	observation = owm.weather_at_place(message)
 	w = observation.get_weather()
 	temperature = w.get_temperature('celsius')['temp']
 
-	print( 'Температура в Якутске - ' , str(temperature))
+	print( 'Температура - ', message ,' - ' , str(temperature))
 
 
-	emb = discord.Embed( title = 'погода в Якутске', description = 'Вы сможете узнать прогноз погоды', colour = discord.Color.blue(), url = 'https://www.gismeteo.ru/weather-yakutsk-4039/')
+	emb = discord.Embed( title = 'Ссылка ', description = 'Вы сможете узнать прогноз погоды', colour = discord.Color.blue(), url = 'https://www.gismeteo.ru/weather-yakutsk-4039/')
 
 	emb.set_author( name = client.user.name, icon_url = client.user.avatar_url )
 	emb.set_footer( text = ctx.author.name, icon_url = ctx.author.avatar_url )
 	emb.set_image( url = 'https://media.discordapp.net/attachments/775235971306094602/821595018665918484/1116.png?width=1014&height=669' )
 
 	now_date = datetime.datetime.now()
-
-	emb.add_field( name = 'Weather', value ='Температура на данный момент в Якутске '+ str(temperature))
+	if temperature>0:
+		temperature='+'+str(temperature)
+		emb.add_field( name = 'Weather', value ='Температура на данный момент в '+message+' '+ temperature)
+	else:
+		emb.add_field( name = 'Weather', value ='Температура на данный момент в '+message+' '+ str(temperature))
 	
 	await ctx.send( embed = emb )
 	print('>погода<')
@@ -300,8 +328,8 @@ async def сб( ctx ):
 async def help_adm( ctx ):
 	emb = discord.Embed( title = 'Навигация по командам для администраторов', colour = discord.Color.orange()  )
 
-	emb.add_field( name = 'Информация', value = '.claer\n.kick\n.ban\n.mute\n.hi\n.send_a\n.send_m' )
-	emb.add_field( name = 'Роли', value = '.war\n.ВОДОЛАЗ' )
+	emb.add_field( name = 'Информация', value = '.claer\n.kick\n.ban\n.hi\n.send_m' )
+	emb.add_field( name = 'Роли', value = '.war' )
 #	emb.add_field( name = '{}clear'.format( PREFIX ), value = 'Очистка бота		' )
 #	emb.add_field( name = '{}kick'.format( PREFIX ), value = 'Удаление участников сервера	' )
 #	emb.add_field( name = '{}ban'.format( PREFIX ), value = 'Ограничение доступа к серверу	' )
@@ -377,14 +405,14 @@ async def ban(ctx, member: discord.Member, *, reason = None):
 
 @client.command()
 @commands.has_permissions( administrator = True )
-async def war( ctx, member:discord.Member ):
+async def WOW( ctx, member:discord.Member ):
 	await ctx.channel.purge( limit = 1 )
 
-	war3_role = discord.utils.get( ctx.message.guild.roles, name = 'war3' )
+	war3_role = discord.utils.get( ctx.message.guild.roles, name = 'WOW' )
 
-	await member.add_roles( war3_role )
-	await ctx.send(f'{member.mention}, осваивает военное ремесло')
-	print('war')
+	await member.add_roles( WOW_role )
+	await ctx.send(f'WOW {member.mention}, теперь является администратором этого сервера')
+	print('WOW')
 
 @client.command()
 async def send_a( ctx ):
@@ -428,7 +456,7 @@ async def clear_error( ctx, error ):
 		await ctx.send( f'{ ctx.author.mention }, обязательно укажите аргумент!')
 
 	if isinstance( error, commands.MissingPermissions ):
-		await ctx.send( f'{ ctx.author.mention }, у вас не достаточно прав!')
+		await ctx.send( f'{ ctx.author.mention }, у вас недостаточно прав!')
 	print('>clear_error<')
 
 @client.event
@@ -439,6 +467,10 @@ async def on_message( message ):
 
 	if msg in bad_words:
 		await message.delete()
+	
+
+
+
 	
 
 
