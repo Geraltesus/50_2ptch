@@ -2,5 +2,5 @@ discord.py
 pyowm
 Wikipedia-API
 datetime
-os
+os-win
 translate
