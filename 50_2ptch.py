@@ -467,13 +467,6 @@ async def on_message( message ):
 
 	if msg in bad_words:
 		await message.delete()
-	
-
-
-
-	
-
-
 
 token = os.environ.get('BOT_TOKEN')
 client.run(token)
