@@ -9,7 +9,7 @@ import os
 from translate import Translator
 
 PREFIX = '.'
-bad_words = ['блять','сука']
+bad_words = []
 
 
 client = commands.Bot( command_prefix = PREFIX )
@@ -459,14 +459,7 @@ async def clear_error( ctx, error ):
 		await ctx.send( f'{ ctx.author.mention }, у вас недостаточно прав!')
 	print('>clear_error<')
 
-@client.event
-async def on_message( message ):
-	await client.process_commands( message )
 
-	msg = message.content.lower()
-
-	if msg in bad_words:
-		await message.delete()
 
 token = os.environ.get('BOT_TOKEN')
 client.run(token)
