@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import datetime
-import pyowm
+
 from random import randint
 import wikipediaapi as wpaapi
 from discord.utils import get
@@ -9,7 +9,7 @@ import os
 from translate import Translator
 
 PREFIX = '.'
-bad_words = []
+bad_words = ['фильтр','плохие слова']
 
 
 client = commands.Bot( command_prefix = PREFIX )
@@ -34,7 +34,7 @@ async def on_command_error( member ):
 @client.command( pass_contex = True )
 async def help( ctx ):
 	emb = discord.Embed( title = 'Навигация по командам для пользователей', colour = discord.Color.teal() )
-	emb.add_field( name = 'Информация', value = '.пн\n.вт\n.ср\n.чт\n.пт\n.сб\n.время\n.фото\n.погода\n.wiki\n.text\n.join(.leave)\n.send_a' )
+	emb.add_field( name = 'Информация', value = '\n.время\n.фото\n.погода\n.wiki\n.text\n.join(.leave)\n.send_a' )
 	emb.add_field( name = 'Fun', value = '.think\n.Мото\n.cats' )
 	emb.set_image( url = 'https://media.discordapp.net/attachments/775235971306094602/821591097222496256/ch_150146_s1AZ.png' )
 	await ctx.send( embed = emb )
@@ -234,35 +234,6 @@ async def time( ctx ):
 	await ctx.send( embed = emb )
 	print('>time<')
 
-@client.command( pass_contex = True )
-
-async def погода( ctx, message ):
-
-	owm = pyowm.OWM('aad8fa85bfabe2907345fb0ec522c2e7')
-
-	observation = owm.weather_at_place(message)
-	w = observation.get_weather()
-	temperature = w.get_temperature('celsius')['temp']
-
-	print( 'Температура - ', message ,' - ' , str(temperature))
-
-
-	emb = discord.Embed( title = 'Ссылка ', description = 'Вы сможете узнать прогноз погоды', colour = discord.Color.blue(), url = 'https://www.gismeteo.ru/weather-yakutsk-4039/')
-
-	emb.set_author( name = client.user.name, icon_url = client.user.avatar_url )
-	emb.set_footer( text = ctx.author.name, icon_url = ctx.author.avatar_url )
-	emb.set_image( url = 'https://media.discordapp.net/attachments/775235971306094602/821595018665918484/1116.png?width=1014&height=669' )
-
-	now_date = datetime.datetime.now()
-	if temperature>0:
-		temperature='+'+str(temperature)
-		emb.add_field( name = 'Weather', value ='Температура на данный момент в '+message+' '+ temperature)
-	else:
-		emb.add_field( name = 'Weather', value ='Температура на данный момент в '+message+' '+ str(temperature))
-	
-	await ctx.send( embed = emb )
-	print('>погода<')
-
 
 #Расписание
 
@@ -328,8 +299,8 @@ async def сб( ctx ):
 async def help_adm( ctx ):
 	emb = discord.Embed( title = 'Навигация по командам для администраторов', colour = discord.Color.orange()  )
 
-	emb.add_field( name = 'Информация', value = '.claer\n.kick\n.ban\n.hi\n.send_m' )
-	emb.add_field( name = 'Роли', value = '.war' )
+	emb.add_field( name = 'Информация', value = '.clear\n.kick\n.ban\n.hi\n.send_m' )
+#	emb.add_field( name = 'Роли', value = '.war' )
 #	emb.add_field( name = '{}clear'.format( PREFIX ), value = 'Очистка бота		' )
 #	emb.add_field( name = '{}kick'.format( PREFIX ), value = 'Удаление участников сервера	' )
 #	emb.add_field( name = '{}ban'.format( PREFIX ), value = 'Ограничение доступа к серверу	' )
@@ -458,6 +429,16 @@ async def clear_error( ctx, error ):
 	if isinstance( error, commands.MissingPermissions ):
 		await ctx.send( f'{ ctx.author.mention }, у вас недостаточно прав!')
 	print('>clear_error<')
+
+@client.event
+async def on_message( message ):
+	await client.process_commands( message )
+
+	msg = message.content.lower()
+
+	if msg in bad_words:
+		await message.delete()
+	
 
 
 
