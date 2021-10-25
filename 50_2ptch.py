@@ -1,7 +1,5 @@
-import discord
-from discord.ext import commands
 import datetime
-
+from discord import utils
 from random import randint
 import wikipediaapi as wpaapi
 from discord.utils import get
@@ -19,9 +17,11 @@ client.remove_command( 'help' )
 
 async def on_ready():
 	print('ля какой')
-
 	await client.change_presence( status = discord.Status.online, activity = discord.Game( '.help' ) )
+	
 
+	my_channel = client.get_channel(774073933107429389)
+	await my_channel.send('Бот WOW запущен')
 
 
 
@@ -31,14 +31,16 @@ async def on_ready():
 async def on_command_error( member ):
 	pass
 
-@client.command( pass_contex = True )
+
+@client.command()
 async def help( ctx ):
+	b=ctx.message.author
 	emb = discord.Embed( title = 'Навигация по командам для пользователей', colour = discord.Color.teal() )
-	emb.add_field( name = 'Информация', value = '\n.время\n.фото\n.погода\n.wiki\n.text\n.join(.leave)\n.send_a' )
+	emb.add_field( name = 'Информация', value = '\n.время\n.погода\n.wiki\n.text\n.join(.leave)\n.send_a\n.rand a b' )
 	emb.add_field( name = 'Fun', value = '.think\n.Мото\n.cats' )
 	emb.set_image( url = 'https://media.discordapp.net/attachments/775235971306094602/821591097222496256/ch_150146_s1AZ.png' )
 	await ctx.send( embed = emb )
-	print('>help<')
+	print(b,'>help<')
 
 
 @client.command()
@@ -91,12 +93,6 @@ async def wiki(ctx,message):
 	print('>wiki<')
 
 #фан
-@client.command()
-async def фото(ctx):
-	emb = discord.Embed( title = 'Фото расписания', colour = discord.Color.teal() )
-	emb.set_image( url = 'https://media.discordapp.net/attachments/775235971306094602/826090057446064128/931f4c3e-2e1f-4ed7-ac17-58f5cfc9d8a9.png?width=554&height=671' )
-	await ctx.send( embed = emb )
-#await ctx.send("https://media.discordapp.net/attachments/804100165115052042/820616237154828298/4a0fca7a-ddab-4a62-8bc2-284c718a9f22.png?width=566&height=670")
 
 @client.command()
 async def think( ctx ):
@@ -104,6 +100,12 @@ async def think( ctx ):
 	emb.set_image( url = 'https://media.discordapp.net/attachments/774073933107429389/815405106652381224/72gi.gif' )
 	await ctx.send( embed = emb )
 #	await ctx.send('https://media.discordapp.net/attachments/774073933107429389/815405106652381224/72gi.gif')
+
+@client.command()
+async def amogus( ctx ):
+	emb = discord.Embed( title = 'Amogus', colour = discord.Color.light_gray() )
+	emb.set_image( url = 'https://images-ext-1.discordapp.net/external/OjeM2EHeRz2gP96r3YntgHwggfm3h9rQmVFaHcuq00k/https/media.discordapp.net/attachments/464626846160650262/858807440756834314/image0.gif' )
+	await ctx.send( embed = emb )
 
 @client.command()
 async def cats(ctx):
@@ -206,19 +208,24 @@ async def Эркин( ctx ):
 	await ctx.send( embed = emb )
 #	await ctx.send('https://media.discordapp.net/attachments/780709173632696350/789895163773452338/image2.png?width=376&height=669')
 
+@client.command()
+async def Лёня( ctx ):
+	emb = discord.Embed( title = 'Саркома Картошка', colour = discord.Color.teal() )
+	emb.set_image( url = 'https://scontent-arn2-1.cdninstagram.com/v/t51.2885-19/s320x320/243182338_240500674682141_3159728161771067275_n.jpg?_nc_ht=scontent-arn2-1.cdninstagram.com&_nc_ohc=KkKZszIABokAX-_CIUW&edm=ABfd0MgBAAAA&ccb=7-4&oh=9f2ebc7592cf56cbf68f9f87a1d77e52&oe=6161E134&_nc_sid=7bff83' )
+	await ctx.send( embed = emb )
 
 
 
 
-@client.command( pass_contex = True )
+@client.command()
 async def время( ctx ):
 	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.magenta() )
-	rasp.add_field( name = 'Расписание Звонков', value = '1.  8:15 - 8:55\n2.  9:05 - 9:45\n\n3.  10:05 - 10:45\n4.  10:55 - 11:40\n\n5.  11:50 - 12:35\n6.  12:45 - 13:30\n\n\n7.  14:35 - 15:20\n8.  15:30 - 16:15' )
+	rasp.add_field( name = 'Расписание Звонков', value = '1.  8:15 - 9:00\n2.  9:05 - 9:50\n\n3.  10:00 - 10:45\n4.  10:55 - 11:40\n\n5.  11:50 - 12:35\n6.  12:45 - 13:30\n\n\n7.  14:35 - 15:15\n8.  15:20 - 16:15' )
 	rasp.set_image( url = 'https://images-ext-1.discordapp.net/external/Gkn2ts3XGwcztdhCAMwwvclNdbuzGMy8yaGoksYcQ-4/https/img3.goodfon.ru/original/3872x2592/a/60/chasy-vremya-time-sirenevyy.jpg?width=1001&height=670')
 	await ctx.send( embed = rasp )
 	print('>время<')
 
-@client.command( pass_contex = True )
+@client.command()
 
 async def time( ctx ):
 	emb = discord.Embed( title = 'Время в Якутии', description = 'Вы сможете узнать текущее время', colour = discord.Color.purple(), url = 'https://time100.ru/Yakutsk')
@@ -234,67 +241,105 @@ async def time( ctx ):
 	await ctx.send( embed = emb )
 	print('>time<')
 
+@client.command()
+async def rand( ctx, arg1, arg2 ):
+	arg1=int(arg1)
+	arg2=int(arg2)
+	await ctx.send(randint(arg1,arg2))
 
+@client.command()
+async def хотой( ctx ):
+    author=ctx.message.author
+    c=randint(0,10000)
+    if c==10000:
+        b=await ctx.send( 'https://images-ext-2.discordapp.net/external/kjFjltfKFxmdV3pXeK5SaAEVbWiQxHjn5eawwO0rojc/https/media.discordapp.net/attachments/894918922808229928/899996478913773608/coin-flip-18.gif' )
+        await asyncio.sleep(6)
+        rasp = discord.Embed( title = 'ВЫПАЛО РЕБРО', colour = discord.Color.gold() )
+        rasp.add_field(name=':exclamation: :exclamation: ВНИМАНИЕ:exclamation: :exclamation: ',value ='Сообщение будет удалено через 5 минут')
+        rasp.set_image( url = 'http://99-kopeek.ru/assets/images/nikolay_2/5r_1904_gu.jpg' )        
+        await b.edit(embed=rasp,content='')
+        await asyncio.sleep(300)        
+        await b.delete()
+        print(author,'>>Ребро<<')
+
+    elif 0<=c<=4999:
+        b=await ctx.send( 'https://images-ext-2.discordapp.net/external/kjFjltfKFxmdV3pXeK5SaAEVbWiQxHjn5eawwO0rojc/https/media.discordapp.net/attachments/894918922808229928/899996478913773608/coin-flip-18.gif' )
+        await asyncio.sleep(3)
+        rasp = discord.Embed( title = 'ВЫПАЛ ОРЁЛ', colour = discord.Color.gold() )
+        rasp.set_image( url = 'https://media.discordapp.net/attachments/774157603202662442/894823886858911764/2.png?width=670&height=670' )
+        await b.edit(embed=rasp,content='')
+        print(author,'>>Орёл<<')
+
+    else:
+        b=await ctx.send( 'https://images-ext-2.discordapp.net/external/kjFjltfKFxmdV3pXeK5SaAEVbWiQxHjn5eawwO0rojc/https/media.discordapp.net/attachments/894918922808229928/899996478913773608/coin-flip-18.gif' )
+        await asyncio.sleep(3)
+        rasp = discord.Embed( title = 'ВЫПАЛА РЕШКА', colour = discord.Color.gold() )
+        rasp.set_image( url = 'https://images-ext-2.discordapp.net/external/exNBf95t64_ifIm9-m2c6Fy5dPOvmzJOgKxGK0u-HLM/%3Fwidth%3D670%26height%3D670/https/media.discordapp.net/attachments/774157603202662442/894822924484231198/1.png' )
+        await b.edit(embed=rasp,content='')
+        print(author,'>>Решка<<')
+
+
+		
 #Расписание
 
-@client.command( pass_contex = True )
+@client.command()
 async def пн( ctx ):
-	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.dark_grey() )
-	rasp.add_field( name = 'Понедельник', value = '1. География\n2. Русский язык\n\n3. Физика\n4. Физика\n\n5. Математика\n6. Математика\n\n\n7. Литература\n8. Литература' )
+	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.green() )
+	rasp.add_field( name = 'Понедельник', value = '1. История\n2. История\n\n3. Як. лит\n4. Як. лит\n\n5. Алгебра\n6. Алгебра\n\n\n7. Литература\n8. -' )
 	rasp.set_thumbnail( url = 'https://media.discordapp.net/attachments/775235971306094602/820988578879504384/1024px-Weekday_heptagram.png?width=670&height=670' )
 	rasp.set_image( url = 'https://media.discordapp.net/attachments/774073933107429389/819927692958892052/cartoon-vector-illustration-christmas-candy-cane-hand-drawn-font-actual-creative-holidays-sweet-alph.png?width=1280&height=670' )
 	await ctx.send( embed = rasp )
 	print('>расписание уроков пн<')
 
-@client.command( pass_contex = True )
+@client.command()
 async def вт( ctx ):
-	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.dark_grey() )
-	rasp.add_field( name = 'Вторник', value = '1. -\n2. -\n\n3. Математика\n4. Математика\n\n5. История Якутии\n6. Физкультура\n\n\n7. Матан\n8. Матан' )
+	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.green() )
+	rasp.add_field( name = 'Вторник', value = '1. -\n2. -\n\n3. Физика\n4. Физика\n\n5. Геометрия\n6. Геометрия\n\n\n7. Русский язык\n8. Русский язык \n 9.Программирование' )
 	rasp.set_image( url = 'https://media.discordapp.net/attachments/774073933107429389/819928363200151572/tuesday-concept-retro-colorful-word-art-illustration-written-shapes-colors-203217108.png?width=1206&height=670' )
 	rasp.set_thumbnail( url = 'https://media.discordapp.net/attachments/775235971306094602/820988578879504384/1024px-Weekday_heptagram.png?width=670&height=670' )
 	await ctx.send( embed = rasp )
 	print('>расписание уроков вт<')
 
-@client.command( pass_contex = True )
+@client.command()
 async def ср( ctx ):
-	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.dark_grey() )
-	rasp.add_field( name = 'Среда', value = '1. Физика\n2. Физика\n\n3. ОБЖ\n4. Биология\n\n5. Английский язык\n6. Английский язык\n\n\n 		КРУЖКИ' )
+	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.green() )
+	rasp.add_field( name = 'Среда', value = '1. Биология\n2. -\n\n3. Английский язык\n4. Английский язык\n\n5. Начертательная Геометрия\n6. -\n\n\n7. Физика\n8. Физика' )
 	rasp.set_image( url = 'https://fontsme.com/wp-data/w/593/3593/slide/swednesday-0.png')
 	rasp.set_thumbnail( url = 'https://media.discordapp.net/attachments/775235971306094602/820988578879504384/1024px-Weekday_heptagram.png?width=670&height=670' )
 	await ctx.send( embed = rasp )
 	print('>расписание уроков ср<')
 
-@client.command( pass_contex = True )
+@client.command()
 async def чт( ctx ):
-	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.dark_grey() )
-	rasp.add_field( name = 'Четверг', value = '1. Якутская Литература\n2. Якутская Литература\n\n3. Информатика\n4. Информатика\n\n5. Физка\n6. Информатика\n\n\n7. Матан\n8. Матан' )
+	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.green() )
+	rasp.add_field( name = 'Четверг', value = '1. Английский язык\n2. Физкультура\n\n3. Информатика\n4. Информатика\n\n5. Физика\n6. Информатика\n\n\n7. История Якутии\n8. -' )
 	rasp.set_image( url = 'https://st2.depositphotos.com/3523009/6509/i/950/depositphotos_65096635-stock-photo-thursday-word-calendar-translation-text.jpg' )
 	rasp.set_thumbnail( url = 'https://media.discordapp.net/attachments/775235971306094602/820988578879504384/1024px-Weekday_heptagram.png?width=670&height=670' )
 	await ctx.send( embed = rasp )
 	print('>расписание уроков чт<')
 
-@client.command( pass_contex = True )
+@client.command()
 async def пт( ctx ):
-	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.dark_grey() )
-	rasp.add_field( name = 'Пятница', value = '1. Русский язык\n2. Английский язык\n\n3. Математика\n4. Математика\n\n5. Физкультура\n6. Физкультура\n\n\n7. Литература \n8. Экономика' )
+	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.green() )
+	rasp.add_field( name = 'Пятница', value = '1. Физкультура\n2. Физкультура\n\n3. Алгебра\n4. Алгебра\n\n5. Матан\n6. Матан\n\n\n7. Литература \n8. Литература\n9. РНЗ' )
 	rasp.set_image( url = 'https://media.discordapp.net/attachments/774073933107429389/819927290733264896/cartoon-vector-illustration-donut-word-friday-hand-drawn-drawing-sweet-bun-actual-creative-art-work-.png?width=1440&height=578' )
 	rasp.set_thumbnail( url = 'https://media.discordapp.net/attachments/775235971306094602/820988578879504384/1024px-Weekday_heptagram.png?width=670&height=670' )
 	await ctx.send( embed = rasp )
 	print('>расписание уроков пт<')
 
-@client.command( pass_contex = True )
+@client.command()
 async def сб( ctx ):
-	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.dark_grey() )
-	rasp.add_field( name = 'Суббота', value = '1. -\n2. -\n\n3. История\n4. История\n\n5. Информатика\n6. Химия\n\n\n\n' )
-	rasp.set_image( url = 'https://www.pngkey.com/png/full/868-8688573_saturday-name-logo-png-saturday-png.png' )
+	rasp = discord.Embed( title = 'Расписание уроков', colour = discord.Color.green() )
+	rasp.add_field( name = 'Суббота', value = '1. Экономика\n2. Астрономия\n\n3. ОБЖ\n4. -\n\n5. Информатика\n6. Химия\n\n\n\n' )
+	rasp.set_image( url = 'https://media.discordapp.net/attachments/774073933107429389/888013490265133096/Super-Saturday.png?width=1130&height=670' )
 	rasp.set_thumbnail( url = 'https://media.discordapp.net/attachments/775235971306094602/820988578879504384/1024px-Weekday_heptagram.png?width=670&height=670' )
 	await ctx.send( embed = rasp )
 	print('>расписание уроков сб<')
 	
 #help_adm
 
-@client.command( pass_contex = True )
-@commands.has_permissions( administrator = True )
+@client.command()
+@commands.has_role(775524808502149171)
 
 async def help_adm( ctx ):
 	emb = discord.Embed( title = 'Навигация по командам для администраторов', colour = discord.Color.orange()  )
@@ -310,14 +355,15 @@ async def help_adm( ctx ):
 	print('>help_adm<')
 
 #Clear message
-@client.command( pass_contex = True )
-@commands.has_permissions( administrator = True )
+@client.command()
+@commands.has_role(775524808502149171)
 async def clear( ctx, amount : int ):
+	b=ctx.message.author
 	await ctx.channel.purge( limit = amount+1 )
-	print('>clear<')
+	print(b,'>clear<')
 
 #hi everybody
-@client.command( pass_contex = True )
+@client.command()
 
 async def hi( ctx ):
 	x=randint(1,10)
@@ -350,51 +396,38 @@ async def hi( ctx ):
 
 #Kick
 
-@client.command( pass_contex = True )
-@commands.has_permissions( administrator = True )
+@client.command()
+@commands.has_role(775524808502149171)
 
 async def kick( ctx, member: discord.Member, *, reason = None ):
+	b=ctx.message.author
 	await ctx.channel.purge( limit = 1 )
-
 	await member.kick( reason = reason)
 	await ctx.send( f'kick user { member.mention }')
-	print('>Kick<')
+	print(b,'>Kick<')
 
 
 
 #Ban
 
-@client.command( pass_contex = True )
-@commands.has_permissions( administrator = True )
+@client.command()
+@commands.has_role(775524808502149171)
 
 async def ban(ctx, member: discord.Member, *, reason = None):
+	b=ctx.message.author
 	await ctx.channel.purge( limit = 1)
-
 	await member.ban( reason = reason )
 	await ctx.send( f'ban user { member.mention }')
-	print('>Ban<')
+	print(b,'>Ban<')
 
 @client.command()
-@commands.has_permissions( administrator = True )
-async def WOW( ctx, member:discord.Member ):
-	await ctx.channel.purge( limit = 1 )
+@commands.has_role(775524808502149171)
 
-	war3_role = discord.utils.get( ctx.message.guild.roles, name = 'WOW' )
 
-	await member.add_roles( WOW_role )
-	await ctx.send(f'WOW {member.mention}, теперь является администратором этого сервера')
-	print('WOW')
-
-@client.command()
-async def send_a( ctx ):
-	await ctx.author.send( 'Hello' )
-	print('>send_a<')
-
-@client.command()
-@commands.has_permissions( administrator = True )
 async def send_m( ctx, member: discord.Member, message ):
+	b=ctx.message.author
 	await member.send( message )
-	print('>send_m<')
+	print(b,'>send_m<')
 
 @client.command()
 async def join(ctx):
@@ -442,6 +475,5 @@ async def on_message( message ):
 
 
 
-token = os.environ.get('BOT_TOKEN')
-client.run(token)
+client.run('Nzc0MDk1NjExNTQ4NDAxNjc0.X6Sytw.EcCtjePJHlROo8IEqlGwhdguN8k')
 
