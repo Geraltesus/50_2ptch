@@ -1,3 +1,5 @@
+import discord
+from discord.ext import commands
 import datetime
 from discord import utils
 from random import randint
